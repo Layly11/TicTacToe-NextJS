@@ -1,49 +1,39 @@
 'use client';
-'use client';
 import dynamic from 'next/dynamic';
 const TicTacToe = dynamic(() => import('./component/tictac').then(mod => mod.TicTacToe), {
-  loading: () => <div>Loading...</div>,
   ssr: false
 });
 
-// ... โค้ดส่วนที่เหลือคงเดิม
 import { useState, useEffect } from "react";
 // import { TicTacToe } from "./component/tictac";
 import Image from "next/image";
 import "./globals.css";
 
-
 export default function Home() {
-  const [size, setSize] = useState(3);
-  const [useAI, setUseAI] = useState(false);
-  const [isClient, setIsClient] = useState(false);
+  const [size, setSize] = useState(3); // ขนาดเริ่มต้นของตารางเป็น 3x3
+  const [useAI, setUseAI] = useState(false); // กำหนดสถานะ AI
 
+  // ใช้ useEffect เพื่อหลีกเลี่ยงปัญหาของ hydration
   useEffect(() => {
-    setIsClient(true);
-  }, []);
+    // การตั้งค่าขนาดหลังจากที่คอมโพเนนต์เริ่มทำงานในฝั่งไคลเอนต์
+    setSize(3); // กำหนดขนาดเริ่มต้น 3x3 ถ้าต้องการเริ่มจากขนาดอื่นๆ
+    setUseAI(false); // กำหนดค่าเริ่มต้นไม่ใช้ AI
+  }, []); 
 
   const handleSizeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSize(parseInt(event.target.value));
+    setSize(parseInt(event.target.value)); // เปลี่ยนขนาดตารางตามการเลือก
   };
 
   const handleAIChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUseAI(event.target.checked);
+    setUseAI(event.target.checked); // อัปเดตสถานะ AI ตามการเลือก
   };
-
-  if (!isClient) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[500px]">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500 mb-4"></div>
-        <p className="text-xl text-gray-600">Loading Game...</p>
-      </div>
-    );
-  }
 
   return (
     <>
       <div className="flex justify-center items-center flex-col mt-10">
         <h1 className="text-4xl font-bold mt-5">Tic Tac Toe Game</h1>
         
+        {/* Dropdown สำหรับการเลือกขนาดของตาราง */}
         <div className="mt-4">
           <label htmlFor="size" className="mr-2 text-xl">Select Board Size:</label>
           <select
@@ -58,6 +48,7 @@ export default function Home() {
           </select>
         </div>
 
+        {/* Checkbox สำหรับการเลือกว่าจะใช้ AI หรือไม่ */}
         <div className="mt-4">
           <label htmlFor="useAI" className="mr-2 text-xl">Play Against AI:</label>
           <input
@@ -69,6 +60,7 @@ export default function Home() {
           />
         </div>
 
+        {/* ส่งขนาดที่เลือกและสถานะ AI ไปยังคอมโพเนนต์ TicTacToe */}
         <TicTacToe size={size} isAI={useAI} />
       </div>
     </>
