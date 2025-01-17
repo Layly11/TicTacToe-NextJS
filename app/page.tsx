@@ -1,11 +1,6 @@
 'use client';
-import dynamic from 'next/dynamic';
-const TicTacToe = dynamic(() => import('./component/tictac').then(mod => mod.TicTacToe), {
-  ssr: false
-});
-
 import { useState, useEffect } from "react";
-// import { TicTacToe } from "./component/tictac";
+import { TicTacToe } from "./component/tictac";
 import Image from "next/image";
 import "./globals.css";
 
