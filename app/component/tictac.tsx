@@ -37,7 +37,7 @@ export const TicTacToe = ({ size, isAI }: TicTacToeProps) => {
     if(isAI){
       resetGame()
     }else{
-      resetGame
+      resetGame()
     }
   },[isAI])
 
