@@ -1,4 +1,3 @@
-'use client';
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
@@ -17,6 +16,7 @@ export const TicTacToe = ({ size, isAI }: TicTacToeProps) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  console.log(isXNext)
 
   useEffect(() => {
     const initializeEmptyBoard = () => {
